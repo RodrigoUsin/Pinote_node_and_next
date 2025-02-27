@@ -16,7 +16,10 @@ const authUser = (req, res, next) => {
     } catch (error) {
       throw generateErrorUtils("Credenciales inválidas", 401);
     }
-
+    console.log(
+      "Middleware ejecutado, usuario autenticado con ID:",
+      tokenInfo.userId
+    );
     req.userId = tokenInfo.userId;
 
     next();
