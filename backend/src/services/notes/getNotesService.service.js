@@ -15,11 +15,14 @@ const getNotesService = async (user_id = null, note_id = null) => {
   console.log("Servicio ejecutado, filtrando por user_id:", user_id);
 
   if (note_id) {
-    query += ` AND id = ? : WHERE id = ?`;
+    if (params.length > 0) {
+      query += ` AND id = ?`;
+    } else {
+      query += ` WHERE id = ?`;
+    }
+
     params.push(note_id);
   }
-  query += ` ORDER BY id ASC`;
-
   const [result] = await pool.query(query, params);
 
   if (result.length === 0)
