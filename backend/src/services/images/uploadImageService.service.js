@@ -1,5 +1,4 @@
 import path from "path";
-import fs from "fs/promises";
 import generateErrorUtils from "../../utils/generateErrorUtils.js";
 
 const uploadImageService = async (file) => {
@@ -20,8 +19,6 @@ const uploadImageService = async (file) => {
   )}${extension}`;
 
   const uploadPath = path.join("uploads", fileName);
-
-  await fs.writeFile(uploadPath, file.buffer);
 
   return `/uploads/${fileName}`;
 };

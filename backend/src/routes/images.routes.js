@@ -5,6 +5,7 @@ import upload from "../middlewares/imageUploadMiddleware.js";
 
 const imagesRouter = Router();
 
-imagesRouter.post("/upload", authUser, upload, uploadImageController);
+//imagesRouter.post("/upload", authUser, upload, uploadImageController);
+imagesRouter.post("/upload", authUser, uploadImageController);
 
 export default imagesRouter;

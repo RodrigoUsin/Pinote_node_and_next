@@ -13,12 +13,17 @@ const addImageToNoteService = async (noteId, imageUrl, userId) => {
     throw generateErrorUtils("Nota no encontrada o no tienes permiso.", 403);
   }
 
+  const [{ insertId: newImageId }] = await pool.query(
+    `INSERT INTO images (url) VALUES (?)`,
+    [imageUrl]
+  );
+
   await pool.query(`UPDATE notes SET image_id = ? WHERE id = ?`, [
-    imageUrl,
+    newImageId,
     noteId,
   ]);
 
-  return { noteId, imageUrl };
+  return { noteId, imageId: newImageId, imageUrl };
 };
 
 export default addImageToNoteService;

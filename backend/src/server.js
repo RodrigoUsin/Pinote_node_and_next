@@ -1,4 +1,5 @@
 import express from "express";
+import fileUpload from "express-fileupload";
 import cors from "cors";
 import morgan from "morgan";
 import routesRouter from "./routes/routes.routes.js";
@@ -8,6 +9,8 @@ const server = express();
 server.use(cors());
 server.use(morgan("dev"));
 server.use(express.json());
+
+server.use(fileUpload());
 
 server.use(routesRouter);
 
