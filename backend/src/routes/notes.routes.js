@@ -7,6 +7,7 @@ import getNoteByIdController from "../controllers/notes/getNoteByIdController.co
 import editNoteController from "../controllers/notes/editNoteController.controller.js";
 import deleteNoteController from "../controllers/notes/deleteNoteController.controller.js";
 import addImageToNoteController from "../controllers/images/addImageToNoteController.controller.js";
+import upload from "../middlewares/imageUploadMiddleware.js";
 
 const notesRouter = Router();
 
@@ -16,6 +17,11 @@ notesRouter.get("/mynotes", authUser, getNotesByUserController);
 notesRouter.get("/:id", authUser, getNoteByIdController);
 notesRouter.put("/:id", authUser, editNoteController);
 notesRouter.delete("/:id", authUser, deleteNoteController);
-notesRouter.put("/:id/image", authUser, addImageToNoteController);
+notesRouter.put(
+  "/:id/image",
+  authUser,
+  upload.single("image"),
+  addImageToNoteController
+);
 
 export default notesRouter;

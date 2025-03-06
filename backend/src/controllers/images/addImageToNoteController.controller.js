@@ -7,9 +7,13 @@ const addImageToNoteController = async (req, res, next) => {
     const userId = req.userId;
     const noteId = req.params.id;
 
-    if (!imageId) {
+    /*if (!imageId) {
       throw generateErrorUtils("Se requiere una id de imagen.", 400);
-    }
+    }*/ //comento porque no está declarada en un principio.
+
+    if (!req.file) {
+      throw generateErrorUtils("No se ha subido ninguna imagen", 400);
+    } // para validar que se haya subido un archivo, en este caso una imagen
 
     const imageUrl = await uploadImageService(req.file);
 

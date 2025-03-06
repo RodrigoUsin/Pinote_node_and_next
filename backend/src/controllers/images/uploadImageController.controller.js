@@ -1,16 +1,12 @@
 import uploadImageService from "../../services/images/uploadImageService.service.js";
-import generateErrorUtils from "../../utils/generateErrorUtils.js";
 
 const uploadImageController = async (req, res, next) => {
   try {
-    console.log(">>>>>>>>>>", req.file);
-    if (!req.file) {
-      throw generateErrorUtils("No se ha subido ninguna imagen", 400);
-    }
+    console.log("[DEBUG] req.file:", req.file); //Log para señalar posibles errores en la req. del archivo
 
-    const imageUrl = await uploadImageService(req.file.filename);
+    const imageUrl = await uploadImageService(req.file); // Multer ya validó la presencia del archivo (req.file)
 
-    res.send({
+    res.status(201).json({
       status: "ok",
       message: "Imagen subida correctamente",
       data: { imageUrl },

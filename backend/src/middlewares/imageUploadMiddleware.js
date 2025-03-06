@@ -1,16 +1,26 @@
 import multer from "multer";
-import path from "path";
 
-const storage = multer.memoryStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => {
-    const extension = path.extname(file.originalname);
-    const fileName = `${Date.now()}-${Math.round(
-      Math.random() * 1e9
-    )}${extension}`;
-    cb(null, fileName);
-  },
+const storage = multer.memoryStorage(); // Almacena el archivo en memoria como Buffer, ideal para procesar con Sharp antes de guardar.
+
+//filtrar el tipo de archivo para informar por si estoy intentando subir algo que no sea una imagen
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image/")) {
+    // Valida por tipo MIME porque es más seguro que validar por extensión del archivo.
+
+    cb(null, true); //cd = callback y acepta el archivo
+  } else {
+    cb(
+      new Error(
+        "Formato de archivo no permitido. Solo imágenes (JPEG, PNG, WEBP)."
+      ),
+      false
+    );
+  }
+};
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB aproximadamente como máximo para evitar problemas y ataques
 });
-const upload = multer({ storage });
 
-export default upload.single("image");
+export default upload; //campo del formulario "image"
