@@ -2,7 +2,7 @@ import getPool from "../../database/getPool.js";
 import generateErrorUtils from "../../utils/generateErrorUtils.js";
 import bcrypt from "bcrypt";
 
-const registerUserioService = async (email, password) => {
+const registerUserService = async (email, password) => {
   const pool = await getPool();
 
   const [[user]] = await pool.query(`SELECT id FROM users WHERE email = ?`, [
@@ -18,7 +18,11 @@ const registerUserioService = async (email, password) => {
     [email, passwordHashed]
   );
 
-  return insertId;
+  const token = jwt.sign({ id: insertId, email }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+
+  return { insertId, token };
 };
 
-export default registerUserioService;
+export default registerUserService;

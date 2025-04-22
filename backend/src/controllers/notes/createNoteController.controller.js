@@ -3,7 +3,8 @@ import generateErrorUtils from "../../utils/generateErrorUtils.js";
 
 const createNoteController = async (req, res, next) => {
   try {
-    const { title, content, category_id, user_id, state_id } = req.body;
+    const { title, content, category_id } = req.body;
+    const author_id = req.userId;
 
     if (!title) throw generateErrorUtils("Se esperaba un título", 400);
 
@@ -12,9 +13,11 @@ const createNoteController = async (req, res, next) => {
     if (!category_id)
       throw generateErrorUtils("Se esperaba una categoría", 400);
 
-    if (!user_id) throw generateErrorUtils("Se esperaba un autor", 400);
+    if (!author_id) throw generateErrorUtils("Se esperaba un autor", 400);
 
-    await createNoteService(title, content, category_id, user_id, state_id);
+    const state_id = 2;
+
+    await createNoteService(title, content, category_id, author_id);
     res.send({
       status: "ok",
       message: "Nota creada correctamente.",

@@ -6,7 +6,7 @@ import routesRouter from "./routes/routes.routes.js";
 
 const server = express();
 
-server.use(cors());
+server.use(cors({ credentials: true }));
 server.use(morgan("dev"));
 server.use(express.json());
 

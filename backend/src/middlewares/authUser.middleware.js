@@ -12,7 +12,7 @@ const authUser = (req, res, next) => {
     let tokenInfo;
     try {
       const token = authorization.split(" ")[1];
-      tokenInfo = jwt.verify(token, process.env.SECRET);
+      tokenInfo = jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {
       throw generateErrorUtils("Credenciales inválidas", 401);
     }

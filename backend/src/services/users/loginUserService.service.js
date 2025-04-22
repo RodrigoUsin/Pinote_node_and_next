@@ -36,8 +36,8 @@ const loginUserService = async (email, password) => {
     throw generateErrorUtils("Email o password incorrectos", 401);
   }
 
-  const token = jwt.sign({ userId: user.id, email }, process.env.SECRET, {
-    expiresIn: process.env.EXPIRES_IN || "2d",
+  const token = jwt.sign({ userId: user.id, email }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
   return { userId: user.id, token };
